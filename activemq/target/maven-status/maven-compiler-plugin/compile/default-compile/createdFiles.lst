@@ -1,0 +1,5 @@
+queue\JmsConsumer$1.class
+queue\JmsTopicProduce.class
+queue\JmsProduce.class
+queue\JmsTopicConsumer.class
+queue\JmsConsumer.class
