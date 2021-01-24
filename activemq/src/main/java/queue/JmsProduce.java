@@ -12,7 +12,7 @@ import javax.jms.*;
 
 public class JmsProduce {
 
-    public static final String ACTIVEMQ_URL="tcp://localhost:61616";
+    public static final String ACTIVEMQ_URL="tcp://192.168.1.100:61616";
     public static final String QUEUE_NAME="queue01";
 
     public static void main(String[] args) throws JMSException {
@@ -26,6 +26,8 @@ public class JmsProduce {
         Queue queue = session.createQueue(QUEUE_NAME);
         //创建消息生产者 参数为destination
         MessageProducer producer = session.createProducer(queue);
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
+
         //消息生产者生产消息发送打队列
         for (int i = 0; i <10 ; i++) {
             //创建基于session的消息

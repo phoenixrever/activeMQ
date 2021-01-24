@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 
 public class JmsConsumer {
-    public static final String ACTIVEMQ_URL="tcp://localhost:61616";
+    public static final String ACTIVEMQ_URL="tcp://192.168.1.100:61616";
     public static final String QUEUE_NAME="queue01";
 
     public static void main(String[] args) throws JMSException, IOException {
@@ -39,16 +39,13 @@ public class JmsConsumer {
                 break;
             }
         }*/
-        consumer.setMessageListener(new MessageListener() {
-            @Override
-            public void onMessage(Message message) {
-                if(message != null && message instanceof TextMessage){
-                    TextMessage textMessage=(TextMessage)message;
-                    try {
-                        System.out.println("message listener "+textMessage.getText());
-                    } catch (JMSException e) {
-                        e.printStackTrace();
-                    }
+        consumer.setMessageListener(message -> {
+            if(message != null && message instanceof TextMessage){
+                TextMessage textMessage=(TextMessage)message;
+                try {
+                    System.out.println("message listener "+textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
                 }
             }
         });
