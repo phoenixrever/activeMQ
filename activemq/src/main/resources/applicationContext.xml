@@ -10,7 +10,7 @@
         <property name="connectionFactory">
             <!--  真正可以生产Connection的factory由对应的JMS服务商提供  -->
             <bean class="org.apache.activemq.ActiveMQConnectionFactory" >
-                <property name="brokerURL" value="tcp:localhost:61616"/>
+                <property name="brokerURL" value="tcp://192.168.1.100:61616"/>
             </bean>
         </property>
         <property name="maxConnections" value="100"/>
@@ -20,8 +20,14 @@
     <bean id="destinationQueue" class="org.apache.activemq.command.ActiveMQQueue">
         <constructor-arg index="0" value="spring-active-queue"/>
     </bean>
+
+
+    <!-- 主题目的地 -->
+    <bean id="destinationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg index="0" value="spring-active-topic"/>
+    </bean>
     <!--jdbc Template redisTemplate -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <bean id="jmsTemplateQueue" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="jmsFactory"/>
         <property name="defaultDestination" ref="destinationQueue"/>
         <property name="messageConverter">
@@ -29,4 +35,20 @@
         </property>
     </bean>
 
+    <bean id="jmsTemplateTopic" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="defaultDestination" ref="destinationTopic"/>
+        <property name="messageConverter">
+            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>
+        </property>
+    </bean>
+
+    <!-- 配置监听器listener spring容器自动装配-->
+    <bean id="jmsListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="jmsFactory"/>
+        <property name="destination" ref="destinationTopic"/>
+        <!-- 自定义messageListener-->
+        <property name="messageListener" ref="myMessageListener"/>
+    </bean>
+<!--    <bean id="myMessageListener" class="com.activemq.spring.MyMessageListener"/>-->
 </beans>

@@ -1,7 +1,6 @@
 package com.activemq.queue;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.omg.PortableInterceptor.NON_EXISTENT;
 
 import javax.jms.*;
 
