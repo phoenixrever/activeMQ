@@ -14,8 +14,8 @@ import java.io.IOException;
  */
 
 public class JmsConsumer {
-    public static final String ACTIVEMQ_URL="tcp://localhost:61616";
-    public static final String QUEUE_NAME="queue01";
+    public static final String ACTIVEMQ_URL="tcp://192.168.1.100:61616";
+    public static final String QUEUE_NAME="jdbc-queue01";
 
     public static void main(String[] args) throws JMSException, IOException {
         System.out.println("--------------1---------------");
@@ -24,7 +24,7 @@ public class JmsConsumer {
         Connection connection = activeMQConnectionFactory.createConnection();
         connection.start();
         //transacted 事务   acknowledgeMode 签收
-        Session session = connection.createSession(true,Session.AUTO_ACKNOWLEDGE);
+        Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
         //创建destination queue 还是 topic  queue topic  是destination的子接口
         Queue queue = session.createQueue(QUEUE_NAME);
       //创建消息消费者 参数为destination
@@ -56,7 +56,7 @@ public class JmsConsumer {
         //不写消费不到消息消费需要时间 而下面关闭语句会断了连接接收不到消息
 //        System.in.read();
         consumer.close();
-        session.commit();
+//        session.commit();
         session.close();
         connection.close();
         System.out.println("message complete");

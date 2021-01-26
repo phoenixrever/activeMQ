@@ -12,8 +12,8 @@ import javax.jms.*;
 
 public class JmsProduce {
 
-    public static final String ACTIVEMQ_URL="tcp://localhost:61616";
-    public static final String QUEUE_NAME="queue01";
+    public static final String ACTIVEMQ_URL="tcp://192.168.1.100:61616";
+    public static final String QUEUE_NAME="jdbc-queue01";
 
     public static void main(String[] args) throws JMSException {
         ActiveMQConnectionFactory activeMQConnectionFactory
@@ -21,12 +21,12 @@ public class JmsProduce {
         Connection connection = activeMQConnectionFactory.createConnection();
         connection.start();
         //transacted 事务   acknowledgeMode 签收
-        Session session = connection.createSession(true,Session.AUTO_ACKNOWLEDGE);
+        Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
         //创建destination queue 还是 topic  queue topic  是destination的子接口
         Queue queue = session.createQueue(QUEUE_NAME);
         //创建消息生产者 参数为destination
         MessageProducer producer = session.createProducer(queue);
-
+        producer.setDeliveryMode(DeliveryMode.PERSISTENT);
         //消息生产者生产消息发送打队列
         for (int i = 0; i <10 ; i++) {
             //创建基于session的消息
@@ -37,7 +37,7 @@ public class JmsProduce {
 
 
         producer.close();
-        session.commit();
+//        session.commit();
         session.close();
         connection.close();
         System.out.println("message complete");

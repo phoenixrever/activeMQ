@@ -50,5 +50,5 @@
         <!-- 自定义messageListener-->
         <property name="messageListener" ref="myMessageListener"/>
     </bean>
-<!--    <bean id="myMessageListener" class="com.activemq.spring.MyMessageListener"/>-->
-</beans>
+
+  </beans>

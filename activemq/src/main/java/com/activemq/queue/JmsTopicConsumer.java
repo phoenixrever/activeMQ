@@ -11,8 +11,8 @@ import java.io.IOException;
  */
 
 public class JmsTopicConsumer {
-    public static final String ACTIVEMQ_URL="tcp://localhost:61616";
-    public static final String TOPIC_NAME="topic-persistent";
+    public static final String ACTIVEMQ_URL="tcp://192.168.1.100:61616";
+    public static final String TOPIC_NAME="jdbc-topic-persistent";
 
     public static void main(String[] args) throws JMSException, IOException {
         System.out.println("------------------shadow------------------");
@@ -34,7 +34,7 @@ public class JmsTopicConsumer {
                 TextMessage textMessage=(TextMessage)message;
                 System.out.println("receive Durable topic message"+textMessage.getText());
                 //在while下继续监听
-                message = topicSubscriber.receive();
+                message = topicSubscriber.receive(3000L);
             }else{
                 break;
             }
