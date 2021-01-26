@@ -1,27 +1,28 @@
 package com.springboot.springbootactivemq.config;
 
 import lombok.Data;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jms.annotation.EnableJms;
 
-import javax.jms.Queue;
 import javax.jms.Topic;
 
+/**
+ * @author phoenixhell
+ * @create 2021/1/26 0026-上午 10:45
+ */
 @Configuration
-//@Data//或者 直接value
-//@ConfigurationProperties(prefix = "queue")
-public class ConfigBean {
-
-    @Value("${queue.queueName}")
-    private String queueName;
+//@Data
+//@ConfigurationProperties(prefix = "topic")
+public class TopicBean {
+    @Value("${topic.topicName}")
+    private String topicName;
 
     @Bean
-    public Queue queue(){
-        return new ActiveMQQueue(queueName);
+    public Topic topic(){
+        System.out.println(topicName);
+        return new ActiveMQTopic(topicName);
     }
 }
