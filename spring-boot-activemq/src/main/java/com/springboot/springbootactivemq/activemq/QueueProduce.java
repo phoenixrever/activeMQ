@@ -16,6 +16,6 @@ public class QueueProduce {
     private Queue queue;
 
     public void productMsg(){
-        jmsMessagingTemplate.convertAndSend( queue, UUID.randomUUID().toString().substring(0,6));
+        jmsMessagingTemplate.convertAndSend((Destination) queue, UUID.randomUUID().toString().substring(0,6));
     }
 }
